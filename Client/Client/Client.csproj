@@ -90,10 +90,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Password_Visibile.png" />
+    <None Include="Resources\Password_Nascosta.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Password_Nascosta.png" />
+    <None Include="Resources\Password_Visibile.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
