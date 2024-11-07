@@ -48,10 +48,9 @@
             // Scelta_Accesso
             // 
             this.Scelta_Accesso.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Scelta_Accesso.Location = new System.Drawing.Point(41, 22);
-            this.Scelta_Accesso.Margin = new System.Windows.Forms.Padding(4);
+            this.Scelta_Accesso.Location = new System.Drawing.Point(31, 18);
             this.Scelta_Accesso.Name = "Scelta_Accesso";
-            this.Scelta_Accesso.Size = new System.Drawing.Size(231, 82);
+            this.Scelta_Accesso.Size = new System.Drawing.Size(173, 67);
             this.Scelta_Accesso.TabIndex = 1;
             this.Scelta_Accesso.Text = "Accedi";
             this.Scelta_Accesso.UseVisualStyleBackColor = true;
@@ -60,10 +59,9 @@
             // Scelta_Registrazione
             // 
             this.Scelta_Registrazione.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Scelta_Registrazione.Location = new System.Drawing.Point(278, 22);
-            this.Scelta_Registrazione.Margin = new System.Windows.Forms.Padding(4);
+            this.Scelta_Registrazione.Location = new System.Drawing.Point(208, 18);
             this.Scelta_Registrazione.Name = "Scelta_Registrazione";
-            this.Scelta_Registrazione.Size = new System.Drawing.Size(231, 82);
+            this.Scelta_Registrazione.Size = new System.Drawing.Size(173, 67);
             this.Scelta_Registrazione.TabIndex = 2;
             this.Scelta_Registrazione.Text = "Registrati";
             this.Scelta_Registrazione.UseVisualStyleBackColor = true;
@@ -72,10 +70,9 @@
             // Accesso
             // 
             this.Accesso.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Accesso.Location = new System.Drawing.Point(409, 439);
-            this.Accesso.Margin = new System.Windows.Forms.Padding(4);
+            this.Accesso.Location = new System.Drawing.Point(365, 392);
             this.Accesso.Name = "Accesso";
-            this.Accesso.Size = new System.Drawing.Size(469, 82);
+            this.Accesso.Size = new System.Drawing.Size(352, 67);
             this.Accesso.TabIndex = 3;
             this.Accesso.Text = "Accedi";
             this.Accesso.UseVisualStyleBackColor = true;
@@ -85,29 +82,26 @@
             // 
             this.Richiesta_Iniziale.Controls.Add(this.Scelta_Registrazione);
             this.Richiesta_Iniziale.Controls.Add(this.Scelta_Accesso);
-            this.Richiesta_Iniziale.Location = new System.Drawing.Point(369, 87);
-            this.Richiesta_Iniziale.Margin = new System.Windows.Forms.Padding(4);
+            this.Richiesta_Iniziale.Location = new System.Drawing.Point(335, 106);
             this.Richiesta_Iniziale.Name = "Richiesta_Iniziale";
-            this.Richiesta_Iniziale.Size = new System.Drawing.Size(553, 120);
+            this.Richiesta_Iniziale.Size = new System.Drawing.Size(415, 98);
             this.Richiesta_Iniziale.TabIndex = 4;
             // 
             // Nome_Utente
             // 
             this.Nome_Utente.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Nome_Utente.Location = new System.Drawing.Point(88, 55);
-            this.Nome_Utente.Margin = new System.Windows.Forms.Padding(4);
+            this.Nome_Utente.Location = new System.Drawing.Point(66, 45);
             this.Nome_Utente.Name = "Nome_Utente";
-            this.Nome_Utente.Size = new System.Drawing.Size(373, 26);
+            this.Nome_Utente.Size = new System.Drawing.Size(281, 26);
             this.Nome_Utente.TabIndex = 5;
             // 
             // Password
             // 
             this.Password.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Password.Location = new System.Drawing.Point(88, 133);
-            this.Password.Margin = new System.Windows.Forms.Padding(4);
+            this.Password.Location = new System.Drawing.Point(66, 108);
             this.Password.Name = "Password";
             this.Password.PasswordChar = '*';
-            this.Password.Size = new System.Drawing.Size(373, 26);
+            this.Password.Size = new System.Drawing.Size(281, 26);
             this.Password.TabIndex = 6;
             this.Password.TextChanged += new System.EventHandler(this.Password_TextChanged);
             // 
@@ -115,8 +109,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(219, 31);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(164, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 20);
             this.label1.TabIndex = 7;
@@ -126,8 +119,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(228, 109);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(171, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 20);
             this.label3.TabIndex = 8;
@@ -140,10 +132,9 @@
             this.Dati_Accesso.Controls.Add(this.label1);
             this.Dati_Accesso.Controls.Add(this.Password);
             this.Dati_Accesso.Controls.Add(this.Nome_Utente);
-            this.Dati_Accesso.Location = new System.Drawing.Point(369, 224);
-            this.Dati_Accesso.Margin = new System.Windows.Forms.Padding(4);
+            this.Dati_Accesso.Location = new System.Drawing.Point(335, 217);
             this.Dati_Accesso.Name = "Dati_Accesso";
-            this.Dati_Accesso.Size = new System.Drawing.Size(553, 180);
+            this.Dati_Accesso.Size = new System.Drawing.Size(415, 146);
             this.Dati_Accesso.TabIndex = 9;
             this.Dati_Accesso.Visible = false;
             // 
@@ -151,9 +142,10 @@
             // 
             this.Vedi_Password.Enabled = false;
             this.Vedi_Password.Image = global::Client.Properties.Resources.Password_Visibile;
-            this.Vedi_Password.Location = new System.Drawing.Point(468, 133);
+            this.Vedi_Password.Location = new System.Drawing.Point(351, 108);
+            this.Vedi_Password.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Vedi_Password.Name = "Vedi_Password";
-            this.Vedi_Password.Size = new System.Drawing.Size(58, 44);
+            this.Vedi_Password.Size = new System.Drawing.Size(30, 26);
             this.Vedi_Password.TabIndex = 9;
             this.Vedi_Password.UseVisualStyleBackColor = true;
             this.Vedi_Password.Click += new System.EventHandler(this.Vedi_Password_Click);
@@ -161,10 +153,9 @@
             // Registrazione
             // 
             this.Registrazione.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Registrazione.Location = new System.Drawing.Point(410, 439);
-            this.Registrazione.Margin = new System.Windows.Forms.Padding(4);
+            this.Registrazione.Location = new System.Drawing.Point(366, 392);
             this.Registrazione.Name = "Registrazione";
-            this.Registrazione.Size = new System.Drawing.Size(469, 82);
+            this.Registrazione.Size = new System.Drawing.Size(352, 67);
             this.Registrazione.TabIndex = 10;
             this.Registrazione.Text = "Registrati";
             this.Registrazione.UseVisualStyleBackColor = true;
@@ -173,18 +164,20 @@
             // Info_Password
             // 
             this.Info_Password.AutoSize = true;
-            this.Info_Password.Location = new System.Drawing.Point(564, 408);
+            this.Info_Password.Location = new System.Drawing.Point(481, 367);
+            this.Info_Password.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Info_Password.Name = "Info_Password";
-            this.Info_Password.Size = new System.Drawing.Size(155, 16);
+            this.Info_Password.Size = new System.Drawing.Size(123, 13);
             this.Info_Password.TabIndex = 11;
             this.Info_Password.Text = "Caratteristiche Password";
             this.Info_Password.Visible = false;
             // 
             // Indietro
             // 
-            this.Indietro.Location = new System.Drawing.Point(582, 528);
+            this.Indietro.Location = new System.Drawing.Point(496, 464);
+            this.Indietro.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Indietro.Name = "Indietro";
-            this.Indietro.Size = new System.Drawing.Size(123, 43);
+            this.Indietro.Size = new System.Drawing.Size(92, 35);
             this.Indietro.TabIndex = 12;
             this.Indietro.Text = "Torna Indietro";
             this.Indietro.UseVisualStyleBackColor = true;
@@ -193,16 +186,15 @@
             // 
             // Form2
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1323, 708);
+            this.ClientSize = new System.Drawing.Size(1087, 639);
             this.Controls.Add(this.Indietro);
             this.Controls.Add(this.Info_Password);
             this.Controls.Add(this.Registrazione);
             this.Controls.Add(this.Dati_Accesso);
             this.Controls.Add(this.Richiesta_Iniziale);
             this.Controls.Add(this.Accesso);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form2";
             this.Text = "Accesso / Registrazione";
             this.Load += new System.EventHandler(this.Form2_Load);

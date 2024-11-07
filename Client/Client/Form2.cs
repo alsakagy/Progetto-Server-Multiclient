@@ -8,11 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Client
 {
     public partial class Form2 : Form
     {
+        private bool Visualizza_Password = true;
         public Form2()
         {
             InitializeComponent();
@@ -64,17 +66,19 @@ namespace Client
 
         private void Vedi_Password_Click(object sender, EventArgs e)
         {
-            if(Vedi_Password.Image == Properties.Resources.Password_Visibile)
+            if(Visualizza_Password)
             {
                 Vedi_Password.Image = Properties.Resources.Password_Nascosta;
                 Vedi_Password.Refresh();
                 Password.PasswordChar = '\0';
+                Visualizza_Password = !Visualizza_Password;
             }
-            else if(Vedi_Password.Image == Properties.Resources.Password_Nascosta)
+            else
             {
                 Vedi_Password.Image = Properties.Resources.Password_Visibile;
                 Vedi_Password.Refresh();
                 Password.PasswordChar = '*';
+                Visualizza_Password = !Visualizza_Password;
             }
         }
     }
