@@ -58,7 +58,7 @@
             this.Controls.Add(this.Invia_Messaggio);
             this.Controls.Add(this.Messaggio);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Scambio Messaggi";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
