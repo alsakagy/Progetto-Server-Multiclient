@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -52,18 +53,6 @@ namespace Client
             Indietro.Visible = false;
         }
 
-        private void Password_TextChanged(object sender, EventArgs e)
-        {
-            if(Password.Text != string.Empty)
-            {
-                Vedi_Password.Enabled = true;
-            }
-            else
-            {
-                Vedi_Password.Enabled = false;
-            }
-        }
-
         private void Vedi_Password_Click(object sender, EventArgs e)
         {
             if(Visualizza_Password)
@@ -80,6 +69,11 @@ namespace Client
                 Password.PasswordChar = '*';
                 Visualizza_Password = !Visualizza_Password;
             }
+        }
+
+        private void Registrazione_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

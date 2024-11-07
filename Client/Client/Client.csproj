@@ -95,5 +95,11 @@
   <ItemGroup>
     <None Include="Resources\Password_Visibile.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icona_Whatsapp.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icona_whatsapp.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
