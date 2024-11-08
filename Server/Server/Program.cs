@@ -13,6 +13,8 @@ namespace Server
 {
     internal class Program
     {
+        //Lista di socket
+        private List<Socket> Clients = new List<Socket>();
         public static int Main(String[] args)
         {
             StartListening();
@@ -21,8 +23,6 @@ namespace Server
 
         public static void StartListening()
         {
-            List<Socket> Clients = new List<Socket>();  // memo tutti i clients per effettuare broadcast
-
             //Crea l'oggetto che indica l'ip
             IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 5000);
@@ -43,7 +43,7 @@ namespace Server
 
                 //Oggetto dedicato alla gestione complessiva dei clients collegati
                 ClientsManager clientsThread = new ClientsManager(ref Clients);
-                //Thread dell'oggetto che gestisci i client collegati
+                //Thread dell'oggetto che gestisci i client collegati (fa il broadcast)
                 Thread tb = new Thread(new ThreadStart(clientsThread.broadcast));
                 tb.Start();
 
@@ -57,7 +57,7 @@ namespace Server
 
                     //Oggetto che gestisce il client collegato
                     ClientManager clientThread = new ClientManager(handler);
-                    //Thread dell'oggetto appena creato
+                    //Thread dell'oggetto appena creato (fa il DoClient)
                     Thread t = new Thread(new ThreadStart(clientThread.doClient));
                     t.Start();
 
