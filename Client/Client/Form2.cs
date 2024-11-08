@@ -28,7 +28,7 @@ namespace Client
 
         private void Scelta_Accesso_Click(object sender, EventArgs e)
         {
-            Richiesta_Iniziale.Visible = false;
+            Richiesta_Iniziale.Enabled = false;
             Dati_Accesso.Visible = true;
             Accesso.Visible = true;
             Indietro.Visible = true;
@@ -36,7 +36,7 @@ namespace Client
 
         private void Scelta_Registrazione_Click(object sender, EventArgs e)
         {
-            Richiesta_Iniziale.Visible = false;
+            Richiesta_Iniziale.Enabled = false;
             Dati_Accesso.Visible = true;
             Registrazione.Visible = true;
             Info_Password.Visible = true;
@@ -45,7 +45,7 @@ namespace Client
 
         private void Indietro_Click(object sender, EventArgs e)
         {
-            Richiesta_Iniziale.Visible = true;
+            Richiesta_Iniziale.Enabled = true;
             Dati_Accesso.Visible = false;
             Registrazione.Visible = false;
             Accesso.Visible = false;
