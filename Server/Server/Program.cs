@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+//using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +14,7 @@ namespace Server
     internal class Program
     {
         //Lista di socket
-        private List<Socket> Clients = new List<Socket>();
+        private static List<Socket> Clients = new List<Socket>();
         public static int Main(String[] args)
         {
             StartListening();
