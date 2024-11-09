@@ -74,7 +74,80 @@ namespace Client
 
         private void Registrazione_Click(object sender, EventArgs e)
         {
+            try
+            {
+                Account NewAccount = new Account(Nome_Utente.Text, Password.Text);
+                RegistrazioneAccount(NewAccount);
+            }
+            catch(ArgumentNullException Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
+            catch(Exception Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
+        }
 
+        private void Accesso_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AccessoAccount()
+        {
+
+        }
+
+        private void RegistrazioneAccount(Account NewAccount)
+        {
+            try
+            {
+                string JsonString = JsonSerializer.Serialize(NewAccount);
+            }
+            catch(Exception Ex)
+            {
+                MessageBox.Show("Errore: " +  Ex.Message);
+            }
+
+        }
+    }
+
+    class Account
+    {
+        private string nomeutente;
+        private string password;
+
+        public string NomeUtente
+        {
+            get { return nomeutente; }
+            set { nomeutente = value; }
+        }
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+
+        public Account(string nomeutente, string password)
+        {
+            if (nomeutente == string.Empty && password != string.Empty)
+            {
+                throw new ArgumentNullException(nomeutente, "Il campo nome utente non può essere vuoto");
+            }
+
+            if (password == string.Empty && nomeutente != string.Empty)
+            {
+                throw new ArgumentNullException(password, "Il campo password non può essere vuoto");
+            }
+
+            if (nomeutente == string.Empty && password == string.Empty)
+            {
+                throw new Exception("I campi nome utente e password non possono essere vuoti.");
+            }
+
+            this.nomeutente = nomeutente;
+            this.password = password;
         }
     }
 }

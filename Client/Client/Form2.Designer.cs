@@ -38,11 +38,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.Dati_Accesso = new System.Windows.Forms.Panel();
+            this.Vedi_Password = new System.Windows.Forms.Button();
             this.Registrazione = new System.Windows.Forms.Button();
             this.Info_Password = new System.Windows.Forms.Label();
             this.Indietro = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.Vedi_Password = new System.Windows.Forms.Button();
             this.Richiesta_Iniziale.SuspendLayout();
             this.Dati_Accesso.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -101,6 +101,7 @@
             this.Accesso.Text = "Accedi";
             this.Accesso.UseVisualStyleBackColor = false;
             this.Accesso.Visible = false;
+            this.Accesso.Click += new System.EventHandler(this.Accesso_Click);
             // 
             // Richiesta_Iniziale
             // 
@@ -169,6 +170,25 @@
             this.Dati_Accesso.TabIndex = 9;
             this.Dati_Accesso.Visible = false;
             // 
+            // Vedi_Password
+            // 
+            this.Vedi_Password.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
+            this.Vedi_Password.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(49)))), ((int)(((byte)(44)))));
+            this.Vedi_Password.FlatAppearance.BorderSize = 2;
+            this.Vedi_Password.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
+            this.Vedi_Password.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
+            this.Vedi_Password.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Vedi_Password.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
+            this.Vedi_Password.Image = global::Client.Properties.Resources.Password_Visibile;
+            this.Vedi_Password.Location = new System.Drawing.Point(351, 108);
+            this.Vedi_Password.Margin = new System.Windows.Forms.Padding(2);
+            this.Vedi_Password.Name = "Vedi_Password";
+            this.Vedi_Password.Padding = new System.Windows.Forms.Padding(0, 0, 2, 1);
+            this.Vedi_Password.Size = new System.Drawing.Size(32, 26);
+            this.Vedi_Password.TabIndex = 9;
+            this.Vedi_Password.UseVisualStyleBackColor = false;
+            this.Vedi_Password.Click += new System.EventHandler(this.Vedi_Password_Click);
+            // 
             // Registrazione
             // 
             this.Registrazione.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
@@ -234,25 +254,6 @@
             this.panel1.Size = new System.Drawing.Size(480, 455);
             this.panel1.TabIndex = 13;
             // 
-            // Vedi_Password
-            // 
-            this.Vedi_Password.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
-            this.Vedi_Password.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(49)))), ((int)(((byte)(44)))));
-            this.Vedi_Password.FlatAppearance.BorderSize = 2;
-            this.Vedi_Password.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
-            this.Vedi_Password.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
-            this.Vedi_Password.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Vedi_Password.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
-            this.Vedi_Password.Image = global::Client.Properties.Resources.Password_Visibile;
-            this.Vedi_Password.Location = new System.Drawing.Point(351, 108);
-            this.Vedi_Password.Margin = new System.Windows.Forms.Padding(2);
-            this.Vedi_Password.Name = "Vedi_Password";
-            this.Vedi_Password.Padding = new System.Windows.Forms.Padding(0, 0, 2, 1);
-            this.Vedi_Password.Size = new System.Drawing.Size(32, 26);
-            this.Vedi_Password.TabIndex = 9;
-            this.Vedi_Password.UseVisualStyleBackColor = false;
-            this.Vedi_Password.Click += new System.EventHandler(this.Vedi_Password_Click);
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -262,7 +263,6 @@
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Name = "Form2";
             this.Text = "Accesso / Registrazione";
             this.Load += new System.EventHandler(this.Form2_Load);
