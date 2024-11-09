@@ -14,6 +14,7 @@ namespace Client
 {
     public partial class Form1 : Form
     {
+        // spostare tutta questa parte nel form di accesso/registrazione creando così il socket, poi passare il socket tramite il costruttore di questo form
         public static string data = "";
         public static IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
         public static IPEndPoint remoteEP = new IPEndPoint(ipAddress, 5000);

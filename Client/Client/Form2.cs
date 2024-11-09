@@ -20,6 +20,7 @@ namespace Client
         public Form2()
         {
             InitializeComponent();
+            // Creare un socket tramite i dati spostati dal "mainForm", e poi passare il socket tramite il suo costruttore (guarda appunti chat)
         }
 
         private void Form2_Load(object sender, EventArgs e)
