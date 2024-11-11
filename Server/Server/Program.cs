@@ -163,8 +163,8 @@ namespace Server
                 switch (Dati[0])
                 {
                     case "REG":
-                        // Non so come indicare la cartella resource come percorso in cui deve creare/leggere il file
-                        File.AppendAllText("ElencoAccount.json", Dati[1]);
+                        string Percorso = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "Resources", "ElencoAccount.json");
+                        File.AppendAllText(Percorso, Dati[1]);
                         break;
                 }
                 //Codifica data in byte
