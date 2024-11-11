@@ -8,6 +8,7 @@ using System.Text.Json;
 //using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Server
 {
@@ -80,7 +81,7 @@ namespace Server
         //Lista passata per riferimento
         List<Socket> Clients = new List<Socket>();
         //Messaggio in byte
-        byte[] bytes = new Byte[1024];
+        byte[] bytes = new byte[1024];
         //Messaggio in string
         string data;
 
@@ -126,7 +127,7 @@ namespace Server
         //Socket
         Socket clientSocket;
         //Messaggio in byte
-        byte[] bytes = new Byte[1024];
+        byte[] bytes = new byte[1024];
         //Messaggio in string
         string data = "";
 
@@ -157,7 +158,15 @@ namespace Server
 
                 //Stampa il messaggio ricevuto (inutile)
                 Console.WriteLine("Messaggio ricevuto : {0}", data);
+                string[] Dati = data.Split(' ');
 
+                switch (Dati[0])
+                {
+                    case "REG":
+                        // Non so come indicare la cartella resource come percorso in cui deve creare/leggere il file
+                        File.AppendAllText("ElencoAccount.json", Dati[1]);
+                        break;
+                }
                 //Codifica data in byte
                 byte[] msg = Encoding.ASCII.GetBytes(data);
                 //Manda il messaggio appena codificato al client
@@ -169,6 +178,44 @@ namespace Server
             clientSocket.Close();
             //Svuota data
             data = "";
+        }
+    }
+
+    class Account
+    {
+        private string nomeutente;
+        private string password;
+
+        public string NomeUtente
+        {
+            get { return nomeutente; }
+            set { nomeutente = value; }
+        }
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+
+        public Account(string nomeutente, string password)
+        {
+            if (nomeutente == string.Empty && password != string.Empty)
+            {
+                throw new ArgumentNullException(nomeutente, "Il campo nome utente non può essere vuoto");
+            }
+
+            if (password == string.Empty && nomeutente != string.Empty)
+            {
+                throw new ArgumentNullException(password, "Il campo password non può essere vuoto");
+            }
+
+            if (nomeutente == string.Empty && password == string.Empty)
+            {
+                throw new Exception("I campi nome utente e password non possono essere vuoti.");
+            }
+
+            this.nomeutente = nomeutente;
+            this.password = password;
         }
     }
 }

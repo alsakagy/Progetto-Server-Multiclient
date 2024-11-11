@@ -1,0 +1,10 @@
+Comandi eseguibili dal client:
+
+REG (registrazione) --> REG <Dati account (Json)>
+ACC (accesso) --> ACC <Dati account (Json)>
+CAN (cancellazione proprio account) -->
+INV (invio-messaggio) --> INV <Id-Mittente> <Id-Destinatario> <Messaggio>
+
+Comandi eseguibili da admin (in server):
+
+CANY (cancellazione account) --> CANY <Id>

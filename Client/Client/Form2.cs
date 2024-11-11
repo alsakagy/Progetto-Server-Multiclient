@@ -5,6 +5,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
@@ -17,10 +19,12 @@ namespace Client
     public partial class Form2 : Form
     {
         private bool Visualizza_Password = true;
+        private byte[] Messaggio;
+        private Socket Sender;
         public Form2()
         {
             InitializeComponent();
-            // Creare un socket tramite i dati spostati dal "mainForm", e poi passare il socket tramite il suo costruttore (guarda appunti chat)
+            InizializzaSocket();
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -105,12 +109,49 @@ namespace Client
             try
             {
                 string JsonString = JsonSerializer.Serialize(NewAccount);
+
+                try
+                {
+                    Messaggio = Encoding.ASCII.GetBytes("REG " + JsonString + " $");
+                    Sender.Send(Messaggio);
+                }
+                catch (ArgumentNullException Ex)
+                {
+                    MessageBox.Show("Errore: " + Ex.Message);
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Errore: " + Ex.Message);
+                }
             }
             catch(Exception Ex)
             {
-                MessageBox.Show("Errore: " +  Ex.Message);
+                MessageBox.Show("Errore: " + Ex.Message);
             }
+        }
 
+        private void InizializzaSocket()
+        {
+            IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 5000);
+            Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+            try
+            {
+                Sender.Connect(remoteEP);
+            }
+            catch (ArgumentNullException Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
+            catch (SocketException Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
         }
     }
 
