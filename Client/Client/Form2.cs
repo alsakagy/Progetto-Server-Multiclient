@@ -159,6 +159,7 @@ namespace Client
     {
         private string nomeutente;
         private string password;
+        private int id;
 
         public string NomeUtente
         {
@@ -169,6 +170,12 @@ namespace Client
         {
             get { return password; }
             set { password = value; }
+        }
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         public Account(string nomeutente, string password)

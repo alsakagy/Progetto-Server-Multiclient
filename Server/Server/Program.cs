@@ -14,6 +14,7 @@ namespace Server
 {
     internal class Program
     {
+        private static List<Account> Accounts = new List<Account>();
         //Lista di socket
         private static List<Socket> Clients = new List<Socket>();
         public static int Main(String[] args)
@@ -163,8 +164,11 @@ namespace Server
                 switch (Dati[0])
                 {
                     case "REG":
-                        string Percorso = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName, "Resources", "ElencoAccount.json");
-                        File.AppendAllText(Percorso, Dati[1]);
+                        Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
+                        NewAccount.Id = GeneraID();
+                        string JsonString = JsonSerializer.Serialize(NewAccount);
+                        File.AppendAllText(@".\..\..\Resources\ElencoAccount.json", JsonString);
+                        Refresh();
                         break;
                 }
                 //Codifica data in byte
@@ -179,22 +183,45 @@ namespace Server
             //Svuota data
             data = "";
         }
+
+        private int GeneraID()
+        {
+
+            // tutto sbalgliatofgh
+            // Inserimento semafori per evitare l'accesso al file fino alla riscrittura del file dal thread successivo (incremento di 1 dell'id)
+            string Percorso = @".\..\..\resources\Id.csv";
+            int Id = Convert.ToInt32(File.ReadAllText(Percorso));
+            return Id;
+        }
+
+        private void Refresh()
+        {
+            
+        }
     }
 
     class Account
     {
         private string nomeutente;
         private string password;
+        private int id;
 
         public string NomeUtente
         {
             get { return nomeutente; }
             set { nomeutente = value; }
         }
+
         public string Password
         {
             get { return password; }
             set { password = value; }
+        }
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
         }
 
         public Account(string nomeutente, string password)
