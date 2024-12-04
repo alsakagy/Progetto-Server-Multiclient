@@ -212,7 +212,7 @@
             // 
             this.Info_Password.AutoSize = true;
             this.Info_Password.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
-            this.Info_Password.Location = new System.Drawing.Point(178, 286);
+            this.Info_Password.Location = new System.Drawing.Point(178, 285);
             this.Info_Password.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Info_Password.Name = "Info_Password";
             this.Info_Password.Size = new System.Drawing.Size(123, 13);

@@ -19,8 +19,12 @@ namespace Client
     public partial class Form2 : Form
     {
         private bool Visualizza_Password = true;
-        private byte[] Messaggio;
+        private byte[] Messaggio_Ricevuto = new byte[1024];
+        private byte[] Messaggio_Invio;
+        private string Data;
         private Socket Sender;
+        private Account Account_Login;
+
         public Form2()
         {
             InitializeComponent();
@@ -92,6 +96,15 @@ namespace Client
             {
                 MessageBox.Show("Errore: " + Ex.Message);
             }
+
+            while (Data.IndexOf("$") == -1)
+            {
+                //Riceve il messsaggio in byte dal client
+                int bytesRec = Sender.Receive(Messaggio_Ricevuto);
+                //Trasforma il messaggio da byte a string
+                Data += Encoding.ASCII.GetString(Messaggio_Ricevuto, 0, bytesRec);
+            }
+            Sender.Receive(Messaggio_Ricevuto);
         }
 
         private void Accesso_Click(object sender, EventArgs e)
@@ -112,8 +125,8 @@ namespace Client
 
                 try
                 {
-                    Messaggio = Encoding.ASCII.GetBytes("REG " + JsonString + " $");
-                    Sender.Send(Messaggio);
+                    Messaggio_Invio = Encoding.ASCII.GetBytes("REG " + JsonString + " $");
+                    Sender.Send(Messaggio_Invio);
                 }
                 catch (ArgumentNullException Ex)
                 {

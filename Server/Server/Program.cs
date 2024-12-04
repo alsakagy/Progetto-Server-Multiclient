@@ -58,7 +58,7 @@ namespace Server
                     Socket handler = listener.Accept();
 
                     //Oggetto che gestisce il client collegato
-                    ClientManager clientThread = new ClientManager(handler);
+                    ClientManager clientThread = new ClientManager(handler, ref Accounts);
                     //Thread dell'oggetto appena creato (fa il DoClient)
                     Thread t = new Thread(new ThreadStart(clientThread.doClient));
                     t.Start();
@@ -77,7 +77,7 @@ namespace Server
             Console.Read();
         }
     }
-    public class ClientsManager //Classe che gestisce i socket dei client connessi
+    class ClientsManager //Classe che gestisce i socket dei client connessi
     {
         //Lista passata per riferimento
         List<Socket> Clients = new List<Socket>();
@@ -123,8 +123,10 @@ namespace Server
             }
         }
     }
-    public class ClientManager //Classe che gestisce il socket del singolo client
+    class ClientManager //Classe che gestisce il socket del singolo client
     {
+        //Lista Account
+        List<Account> Accounts = new List<Account>();
         //Socket
         Socket clientSocket;
         //Messaggio in byte
@@ -133,9 +135,10 @@ namespace Server
         string data = "";
 
         //Costruttore che riceve il socket
-        public ClientManager(Socket clientSocket)
+        public ClientManager(Socket clientSocket, ref List<Account> Accounts)
         {
             this.clientSocket = clientSocket;
+            this.Accounts = Accounts;
         }
 
         //Legge il messaggio del client e lo rinvia indietro
@@ -164,11 +167,32 @@ namespace Server
                 switch (Dati[0])
                 {
                     case "REG":
-                        Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
-                        NewAccount.Id = GeneraID();
-                        string JsonString = JsonSerializer.Serialize(NewAccount);
-                        File.AppendAllText(@".\..\..\Resources\ElencoAccount.json", JsonString);
-                        Refresh();
+                        try
+                        {
+                            Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
+                            NewAccount.Id = GeneraID();
+                            Accounts.Add(NewAccount);
+                            try
+                            {
+                                string JsonString = JsonSerializer.Serialize(NewAccount);
+                                data = JsonString + " OK";
+                            }
+                            catch(JsonException Ex)
+                            {
+                                Console.WriteLine("Errore: " + Ex.Message);
+                                data = "# NOK";
+                            }
+                        }
+                        catch (JsonException Ex)
+                        {
+                            Console.WriteLine("Errore: " + Ex.Message);
+                            data = "# NOK";
+                        }
+                        catch (Exception Ex)
+                        {
+                            Console.WriteLine("Errore: " + Ex.Message);
+                            data = "# NOK";
+                        }
                         break;
                 }
                 //Codifica data in byte
