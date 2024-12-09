@@ -9,20 +9,63 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
+using System.ComponentModel;
+using System.Security.Principal;
 
 namespace Server
 {
     internal class Program
     {
+        //Ultimo ID
+        private static int ID;
+        //Lista di account registrati
         private static List<Account> Accounts = new List<Account>();
         //Lista di socket
         private static List<Socket> Clients = new List<Socket>();
+        //Variabile booleanea per while infinito
+        private static bool Running = true;
         public static int Main(String[] args)
         {
+            AppDomain.CurrentDomain.ProcessExit += Gestione_Uscita;
+            CaricamentoAccount();
+            CaricamentoUltimoID();
             StartListening();
             return 0;
         }
 
+        public static void Gestione_Uscita(object sender, EventArgs e)
+        {
+            Running = false;
+            string path = "./../../Resources/ElencoAccount.json";
+            List<string> Righe = new List<string>();
+            foreach (Account account in Accounts)
+            {
+                Righe.Add(JsonSerializer.Serialize(account));
+            }
+            File.WriteAllLines(path, Righe);
+        }
+
+        public static void CaricamentoAccount()
+        {
+            string Path = "./../../Resources/ElencoAccount.json";
+            string[] Righe = File.ReadAllLines(Path);
+            foreach(string Riga in Righe)
+            {
+                Accounts.Add(JsonSerializer.Deserialize<Account>(Riga));
+            }
+        }
+        public static void CaricamentoUltimoID()
+        {
+            if(Accounts.Count == 0)
+            {
+                ID = 0;
+            }
+            else
+            {
+                ID = Accounts.Last().Id + 1;
+            }
+        }
+        
         public static void StartListening()
         {
             //Crea l'oggetto che indica l'ip
@@ -50,15 +93,15 @@ namespace Server
                 tb.Start();
 
                 //ciclo infinito
-                while (true)
+                while (Running)
                 {
 
                     Console.WriteLine("Waiting for a connection...");
-                    //Aspetta la connessione del clinet e l'accetta
+                    //Aspetta la connessione del client e l'accetta
                     Socket handler = listener.Accept();
 
                     //Oggetto che gestisce il client collegato
-                    ClientManager clientThread = new ClientManager(handler, ref Accounts);
+                    ClientManager clientThread = new ClientManager(handler, ref Accounts,ref ID);
                     //Thread dell'oggetto appena creato (fa il DoClient)
                     Thread t = new Thread(new ThreadStart(clientThread.doClient));
                     t.Start();
@@ -125,6 +168,8 @@ namespace Server
     }
     class ClientManager //Classe che gestisce il socket del singolo client
     {
+        //Id da assegnare
+        int Id;
         //Lista Account
         List<Account> Accounts = new List<Account>();
         //Socket
@@ -135,8 +180,9 @@ namespace Server
         string data = "";
 
         //Costruttore che riceve il socket
-        public ClientManager(Socket clientSocket, ref List<Account> Accounts)
+        public ClientManager(Socket clientSocket, ref List<Account> Accounts, ref int Id)
         {
+            this.Id = Id;
             this.clientSocket = clientSocket;
             this.Accounts = Accounts;
         }
@@ -145,7 +191,7 @@ namespace Server
         public void doClient()
         {
             //Fino a che il messaggio non è la regola di protocollo che fa terminare la connessione
-            while (data != "Quit$")
+            while (data != "QUIT $")
             {
                 //Inutile
                 Console.WriteLine("informazioni client : " + clientSocket.RemoteEndPoint);
@@ -170,29 +216,32 @@ namespace Server
                         try
                         {
                             Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
-                            NewAccount.Id = GeneraID();
+                            NewAccount.Id = Id;
+                            Id++;
                             Accounts.Add(NewAccount);
                             try
                             {
                                 string JsonString = JsonSerializer.Serialize(NewAccount);
-                                data = JsonString + " OK";
+                                data = "OK " + JsonString + " $";
                             }
                             catch(JsonException Ex)
                             {
                                 Console.WriteLine("Errore: " + Ex.Message);
-                                data = "# NOK";
+                                data = "NOK $";
                             }
                         }
                         catch (JsonException Ex)
                         {
                             Console.WriteLine("Errore: " + Ex.Message);
-                            data = "# NOK";
+                            data = "NOK $";
                         }
                         catch (Exception Ex)
                         {
                             Console.WriteLine("Errore: " + Ex.Message);
-                            data = "# NOK";
+                            data = "NOK $";
                         }
+                        break;
+                    default:
                         break;
                 }
                 //Codifica data in byte
@@ -206,21 +255,6 @@ namespace Server
             clientSocket.Close();
             //Svuota data
             data = "";
-        }
-
-        private int GeneraID()
-        {
-
-            // tutto sbalgliatofgh
-            // Inserimento semafori per evitare l'accesso al file fino alla riscrittura del file dal thread successivo (incremento di 1 dell'id)
-            string Percorso = @".\..\..\resources\Id.csv";
-            int Id = Convert.ToInt32(File.ReadAllText(Percorso));
-            return Id;
-        }
-
-        private void Refresh()
-        {
-            
         }
     }
 

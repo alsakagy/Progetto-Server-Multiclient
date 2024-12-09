@@ -43,6 +43,7 @@
             this.Info_Password = new System.Windows.Forms.Label();
             this.Indietro = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Temp = new System.Windows.Forms.Button();
             this.Richiesta_Iniziale.SuspendLayout();
             this.Dati_Accesso.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -254,12 +255,23 @@
             this.panel1.Size = new System.Drawing.Size(480, 455);
             this.panel1.TabIndex = 13;
             // 
+            // Temp
+            // 
+            this.Temp.Location = new System.Drawing.Point(487, 36);
+            this.Temp.Name = "Temp";
+            this.Temp.Size = new System.Drawing.Size(75, 23);
+            this.Temp.TabIndex = 14;
+            this.Temp.Text = "button1";
+            this.Temp.UseVisualStyleBackColor = true;
+            this.Temp.Click += new System.EventHandler(this.Temp_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(70)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1087, 639);
+            this.Controls.Add(this.Temp);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -291,5 +303,6 @@
         private System.Windows.Forms.Button Indietro;
         private System.Windows.Forms.Button Vedi_Password;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button Temp;
     }
 }

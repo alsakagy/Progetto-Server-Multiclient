@@ -21,14 +21,13 @@ namespace Client
         private bool Visualizza_Password = true;
         private byte[] Messaggio_Ricevuto = new byte[1024];
         private byte[] Messaggio_Invio;
-        private string Data;
-        private Socket Sender;
-        private Account Account_Login;
+        private string Data = "";
+        private Socket_Account Socket_Account = new Socket_Account();
 
         public Form2()
         {
             InitializeComponent();
-            InizializzaSocket();
+            InizializzaSocket_Account();
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -97,14 +96,30 @@ namespace Client
                 MessageBox.Show("Errore: " + Ex.Message);
             }
 
+            string[] Dati = Ascolto_Server().Split(' ');
+
+            switch(Dati[0])
+            {
+                case "OK":
+                    Socket_Account.Account = JsonSerializer.Deserialize<Account>(Dati[1]);
+                    break;
+                case "NOK":
+                    MessageBox.Show("La registrazione del nuovo account non è andata a buon fine.");
+                    break;
+            }
+        }
+
+        private string Ascolto_Server()
+        {
             while (Data.IndexOf("$") == -1)
             {
                 //Riceve il messsaggio in byte dal client
-                int bytesRec = Sender.Receive(Messaggio_Ricevuto);
+                int bytesRec = Socket_Account.Sender.Receive(Messaggio_Ricevuto);
                 //Trasforma il messaggio da byte a string
                 Data += Encoding.ASCII.GetString(Messaggio_Ricevuto, 0, bytesRec);
             }
-            Sender.Receive(Messaggio_Ricevuto);
+
+            return Data;
         }
 
         private void Accesso_Click(object sender, EventArgs e)
@@ -126,7 +141,7 @@ namespace Client
                 try
                 {
                     Messaggio_Invio = Encoding.ASCII.GetBytes("REG " + JsonString + " $");
-                    Sender.Send(Messaggio_Invio);
+                    Socket_Account.Sender.Send(Messaggio_Invio);
                 }
                 catch (ArgumentNullException Ex)
                 {
@@ -143,15 +158,15 @@ namespace Client
             }
         }
 
-        private void InizializzaSocket()
+        private void InizializzaSocket_Account()
         {
             IPAddress ipAddress = System.Net.IPAddress.Parse("127.0.0.1");
             IPEndPoint remoteEP = new IPEndPoint(ipAddress, 5000);
-            Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            Socket_Account.Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             try
             {
-                Sender.Connect(remoteEP);
+                Socket_Account.Sender.Connect(remoteEP);
             }
             catch (ArgumentNullException Ex)
             {
@@ -165,6 +180,42 @@ namespace Client
             {
                 MessageBox.Show("Errore: " + Ex.Message);
             }
+        }
+
+        private void Temp_Click(object sender, EventArgs e)
+        {
+            Messaggio_Invio = Encoding.ASCII.GetBytes("QUIT $");
+            Socket_Account.Sender.Send(Messaggio_Invio);
+            Application.Exit();
+        }
+    }
+
+    class Socket_Account
+    {
+        private Socket sender;
+        private Account account;
+
+        public Socket Sender
+        {
+            get { return sender; }
+            set { sender = value; }
+        }
+
+        public Account Account
+        {
+            get { return account; }
+            set { account = value; }
+        }
+
+        public Socket_Account(Socket socket, Account account)
+        {
+            this.sender = socket;
+            this.account = account;
+        }
+
+        public Socket_Account()
+        {
+
         }
     }
 
