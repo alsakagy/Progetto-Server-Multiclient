@@ -105,10 +105,11 @@ namespace Client
         {
             if(Messaggio.Text != string.Empty)
             {
+                Contatti[Lista_Contatti.SelectedIndex].Messaggi.Add("Tu:    " + Messaggio.Text);
                 string Messaggio_Modificato = Messaggio.Text.Replace(' ', '\u001F');
                 try
                 {
-                    Messaggio_Invio = Encoding.ASCII.GetBytes("MSG " + Socket_Account.Account.Id + " " + Contatti[Lista_Contatti.SelectedIndex].Nome_Utente + " " + Contatti[Lista_Contatti.SelectedIndex].ID + " " + Messaggio_Modificato + " $");
+                    Messaggio_Invio = Encoding.ASCII.GetBytes("MSG " + Socket_Account.Account.Id + " " + Socket_Account.Account.NomeUtente + " " + Contatti[Lista_Contatti.SelectedIndex].ID + " " + Messaggio_Modificato + " $");
                     Socket_Account.Sender.Send(Messaggio_Invio);
                 }
                 catch (ArgumentNullException Ex)
@@ -126,83 +127,31 @@ namespace Client
 
         public void Receive(string a)
         {
-                string[] Dati = a.Split(' ');
+            string[] Dati = a.Split(' ');
 
-                switch (Dati[0])
-                {
-                    case "MSG":
-                        int Index = Contatti.FindIndex(x => x.ID == Convert.ToInt32(Dati[1]) && x.Nome_Utente == Dati[2]);
-                        if (Index != -1)
-                        {
-                            Contatti[Index].Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
-                        }
-                        else
-                        {
-                            Contatti.Add(new Contatto(Convert.ToInt32(Dati[1]), Dati[2]));
-                            Contatti.Last().Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
-                        }
-                    AggiornaContatti();
-                        break;
-                    default:
-                        break;
-                }
-        }
-    }
-
-    /*
-    class MessageManager
-    {
-        private Form1 Form1;
-        private List<Contatto> Contatti = new List<Contatto>();
-        private Socket Socket;
-        private byte[] Messaggio_Ricevuto = new byte[1024];
-        public MessageManager(Socket Socket, ref List<Contatto> Contatti, Form1 Form1)
-        {
-            this.Form1 = Form1;
-            this.Contatti = Contatti;
-            this.Socket = Socket;
-        }
-
-        public void Receive()
-        {
-            while (true)
+            switch (Dati[0])
             {
-                //Svuota data da messaggi precendeti
-                string Data = "";
-                //Fino a che non è arrivato al carattere terminatore del messaggio
-                while (Data.IndexOf("$") == -1) //Spiegazione --> data viene costruito dalla decodificazione del messaggio che arriva in byte, percio fino a che non viene scritto in data la lettera "$" il suo valore di IndexOf() sara -1 una volta trovato sarà diverso da -1 perciò il messaggio sarà finito
-                {
-                    //Riceve il messsaggio in byte dal client
-                    int bytesRec = Socket.Receive(Messaggio_Ricevuto);
-                    //Trasforma il messaggio da byte a string
-                    Data += Encoding.ASCII.GetString(Messaggio_Ricevuto, 0, bytesRec);
-                }
+                case "MSG":
+                    int Index = Contatti.FindIndex(x => x.ID == Convert.ToInt32(Dati[1]) && x.Nome_Utente == Dati[2]);
+                    if (Index != -1)
+                    {
+                        Contatti[Index].Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
+                    }
+                    else
+                    {
+                        Contatti.Add(new Contatto(Convert.ToInt32(Dati[1]), Dati[2]));
+                        Contatti.Last().Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
+                    }
 
-                string[] Dati = Data.Split(' ');
+                    AggiornaContatti();
 
-                switch(Dati[0])
-                {
-                    case "MSG":
-                        int Index = Contatti.FindIndex(x => x.ID == Convert.ToInt32(Dati[1]) && x.Nome_Utente == Dati[2]);
-                        if (Index != -1)
-                        {
-                            Contatti[Index].Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
-                        }
-                        else
-                        {
-                            Contatti.Add(new Contatto(Convert.ToInt32(Dati[1]), Dati[2]));
-                            Contatti.Last().Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
-                        }
-
-                        Form1.Invoke((Action)Form1.AggiornaContatti);
-                        break;
-                    default:
-                        break;
-                }
+                    break;
+                default:
+                    break;
             }
         }
     }
-    */
+
     class Contatto
     {
         private int id;
