@@ -73,12 +73,6 @@ namespace Server
                 //Possono collegarsi solo 10 client contemporaneamente
                 listener.Listen(10);
 
-                //Oggetto dedicato alla gestione complessiva dei clients collegati
-                ClientsManager clientsThread = new ClientsManager(ref Clients);
-                //Thread dell'oggetto che gestisci i client collegati (fa il broadcast)
-                Thread tb = new Thread(new ThreadStart(clientsThread.broadcast));
-                tb.Start();
-
                 //ciclo infinito
                 while (true)
                 {
@@ -107,52 +101,7 @@ namespace Server
             Console.Read();
         }
     }
-    class ClientsManager //Classe che gestisce i socket dei client connessi
-    {
-        //Lista passata per riferimento
-        List<Socket> Clients = new List<Socket>();
-        //Messaggio in byte
-        byte[] bytes = new byte[1024];
-        //Messaggio in string
-        string data;
 
-        //Costruttore che riceve la lista di socket
-        public ClientsManager(ref List<Socket> clients)
-        {
-            this.Clients = clients;
-        }
-
-        //Invia a tutti i client un saluto + il loro IP/porta ogni 5 secondi
-        public void broadcast()
-        {
-            while (true)
-            {
-                //Aspetta 5 secondi (5000 millisecondi)
-                System.Threading.Thread.Sleep(5000);
-                data = "";
-
-                //Per ogni socket
-                foreach (Socket socket in Clients)
-                {
-                    try
-                    {
-                        //Messaggio in string
-                        data = "Ciao " + socket.RemoteEndPoint.ToString() + "\n";
-                        //Messaggio trasformato in byte
-                        byte[] msg = Encoding.ASCII.GetBytes(data);
-                        //Invio messaggio in byte
-                        socket.Send(msg);
-                        //Console.WriteLine(socket.RemoteEndPoint.ToString());
-                    }
-                    catch (Exception e)
-                    {
-                        //Eccezione gestita
-                        Console.WriteLine("qlch client ha interrotto comunicazione" + e);
-                    }
-                }
-            }
-        }
-    }
     class ClientManager //Classe che gestisce il socket del singolo client
     {
         //Id da assegnare
@@ -160,17 +109,17 @@ namespace Server
         //Lista Account
         List<Account> Accounts = new List<Account>();
         //Socket
-        Socket clientSocket;
+        Socket ClientSocket;
         //Messaggio in byte
         byte[] bytes = new byte[1024];
         //Messaggio in string
         string data = "";
 
         //Costruttore che riceve il socket
-        public ClientManager(Socket clientSocket, ref List<Account> Accounts, ref int Id)
+        public ClientManager(Socket ClientSocket, ref List<Account> Accounts, ref int Id)
         {
             this.Id = Id;
-            this.clientSocket = clientSocket;
+            this.ClientSocket = ClientSocket;
             this.Accounts = Accounts;
         }
 
@@ -181,14 +130,14 @@ namespace Server
             while (data != "QUIT $")
             {
                 //Inutile
-                Console.WriteLine("informazioni client : " + clientSocket.RemoteEndPoint);
+                Console.WriteLine("informazioni client : " + ClientSocket.RemoteEndPoint);
                 //Svuota data da messaggi precendeti
                 data = "";
                 //Fino a che non è arrivato al carattere terminatore del messaggio
                 while (data.IndexOf("$") == -1) //Spiegazione --> data viene costruito dalla decodificazione del messaggio che arriva in byte, percio fino a che non viene scritto in data la lettera "$" il suo valore di IndexOf() sara -1 una volta trovato sarà diverso da -1 perciò il messaggio sarà finito
                 {
                     //Riceve il messsaggio in byte dal client
-                    int bytesRec = clientSocket.Receive(bytes);
+                    int bytesRec = ClientSocket.Receive(bytes);
                     //Trasforma il messaggio da byte a string
                     data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
                 }
@@ -283,12 +232,12 @@ namespace Server
                 //Codifica data in byte
                 byte[] msg = Encoding.ASCII.GetBytes(data);
                 //Manda il messaggio appena codificato al client
-                clientSocket.Send(msg);
+                ClientSocket.Send(msg);
             }
             //Spegne la connessione
-            clientSocket.Shutdown(SocketShutdown.Both);
+            ClientSocket.Shutdown(SocketShutdown.Both);
             //Chiude il socket
-            clientSocket.Close();
+            ClientSocket.Close();
             //Svuota data
             data = "";
         }
