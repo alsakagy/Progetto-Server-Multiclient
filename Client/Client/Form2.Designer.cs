@@ -265,6 +265,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2";
             this.Text = "Accesso / Registrazione";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Load += new System.EventHandler(this.Form2_Load);
             this.Richiesta_Iniziale.ResumeLayout(false);
             this.Dati_Accesso.ResumeLayout(false);

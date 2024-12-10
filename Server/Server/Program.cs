@@ -20,9 +20,9 @@ namespace Server
         //Ultimo ID
         private static int ID;
         //Lista di account registrati
-        private static List<Account> Accounts = new List<Account>();
-        //Lista di socket
-        private static List<Socket> Clients = new List<Socket>();
+        private static List<Account> AccountsRegistrati = new List<Account>();
+        //Lista di Clienti
+        private static List<Cliente> Clients = new List<Cliente>();
         //Variabile booleanea per while infinito
         public static int Main(String[] args)
         {
@@ -38,18 +38,18 @@ namespace Server
             string[] Righe = File.ReadAllLines(Path);
             foreach(string Riga in Righe)
             {
-                Accounts.Add(JsonSerializer.Deserialize<Account>(Riga));
+                AccountsRegistrati.Add(JsonSerializer.Deserialize<Account>(Riga));
             }
         }
         public static void CaricamentoUltimoID()
         {
-            if(Accounts.Count == 0)
+            if(AccountsRegistrati.Count == 0)
             {
                 ID = 0;
             }
             else
             {
-                ID = Accounts.Last().Id + 1;
+                ID = AccountsRegistrati.Last().Id + 1;
             }
         }
         
@@ -76,17 +76,15 @@ namespace Server
                 //ciclo infinito
                 while (true)
                 {
-
                     Console.WriteLine("Waiting for a connection...");
                     //Aspetta la connessione del client e l'accetta
                     Socket handler = listener.Accept();
 
                     //Oggetto che gestisce il client collegato
-                    ClientManager clientThread = new ClientManager(handler, ref Accounts,ref ID);
+                    ClientManager clientThread = new ClientManager(handler, ref AccountsRegistrati, ref ID,ref Clients);
                     //Thread dell'oggetto appena creato (fa il DoClient)
                     Thread t = new Thread(new ThreadStart(clientThread.doClient));
                     t.Start();
-
                 }
 
             }
@@ -102,25 +100,52 @@ namespace Server
         }
     }
 
+    class Cliente
+    {
+        Socket socket;
+        Account account;
+
+        public Socket Socket
+        {
+            get { return socket; }
+            set { socket = value; }
+        }
+
+        public Account Account
+        {
+            get { return account; }
+            set { account = value; }
+        }
+
+        public Cliente(Socket socket, Account account)
+        {
+            this.socket = socket;
+            this.account = account;
+        }
+    }
+
     class ClientManager //Classe che gestisce il socket del singolo client
     {
         //Id da assegnare
         int Id;
         //Lista Account
-        List<Account> Accounts = new List<Account>();
+        List<Account> AccountsRegistrati = new List<Account>();
         //Socket
         Socket ClientSocket;
+        //Lista di Clienti (riferimento)
+        List<Cliente> Clients = new List<Cliente>();
         //Messaggio in byte
         byte[] bytes = new byte[1024];
         //Messaggio in string
         string data = "";
 
         //Costruttore che riceve il socket
-        public ClientManager(Socket ClientSocket, ref List<Account> Accounts, ref int Id)
+        public ClientManager(Socket ClientSocket, ref List<Account> Accounts, ref int Id, ref List<Cliente> Clients)
         {
+            this.Clients = Clients;
             this.Id = Id;
             this.ClientSocket = ClientSocket;
-            this.Accounts = Accounts;
+            this.AccountsRegistrati = Accounts;
         }
 
         //Legge il messaggio del client e lo rinvia indietro
@@ -154,7 +179,8 @@ namespace Server
                             Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
                             NewAccount.Id = Id;
                             Id++;
-                            Accounts.Add(NewAccount);
+                            AccountsRegistrati.Add(NewAccount);
+                            Clients.Add(new Cliente(ClientSocket, NewAccount));
                             try
                             {
                                 string JsonString = JsonSerializer.Serialize(NewAccount);
@@ -188,11 +214,12 @@ namespace Server
                         try
                         {
                             Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
-                            int Index = Accounts.FindIndex(x => x.NomeUtente == NewAccount.NomeUtente && x.Password == NewAccount.Password);
+                            int Index = AccountsRegistrati.FindIndex(x => x.NomeUtente == NewAccount.NomeUtente && x.Password == NewAccount.Password);
 
                             if(Index != -1)
                             {
-                                NewAccount = Accounts[Index];
+                                NewAccount = AccountsRegistrati[Index];
+                                Clients.Add(new Cliente(ClientSocket, NewAccount));
                                 try
                                 {
                                     string JsonString = JsonSerializer.Serialize(NewAccount);

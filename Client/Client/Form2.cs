@@ -246,6 +246,13 @@ namespace Client
                 MessageBox.Show("Errore: " + Ex.Message);
             }
         }
+
+        private void Form2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Messaggio_Invio = Encoding.ASCII.GetBytes("QUIT $");
+            Socket_Account.Sender.Send(Messaggio_Invio);
+            this.Close();
+        }
     }
 
     public class Socket_Account
