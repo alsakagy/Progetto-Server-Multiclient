@@ -23,41 +23,5 @@ namespace Client
             Socket_Account = Socket;
             InitializeComponent();
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Invia_Messaggio_Click(object sender, EventArgs e)
-        {
-            InviaMessaggio(Messaggio.Text);
-            Messaggio.Text = string.Empty;
-        }
-
-        public static void InviaMessaggio(string messaggio)
-        {
-            try
-            {
-                try
-                {
-                    byte[] msg = Encoding.ASCII.GetBytes(messaggio + "$");
-                    Socket_Account.Sender.Send(msg);
-                }
-                catch (ArgumentNullException ane)
-                {
-                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
     }
 }
