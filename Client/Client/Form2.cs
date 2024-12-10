@@ -251,7 +251,6 @@ namespace Client
         {
             Messaggio_Invio = Encoding.ASCII.GetBytes("QUIT $");
             Socket_Account.Sender.Send(Messaggio_Invio);
-            this.Close();
         }
     }
 

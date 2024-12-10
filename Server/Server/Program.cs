@@ -81,7 +81,7 @@ namespace Server
                     Socket handler = listener.Accept();
 
                     //Oggetto che gestisce il client collegato
-                    ClientManager clientThread = new ClientManager(handler, ref AccountsRegistrati, ref ID,ref Clients);
+                    ClientManager clientThread = new ClientManager(handler, ref AccountsRegistrati, ref ID, ref Clients);
                     //Thread dell'oggetto appena creato (fa il DoClient)
                     Thread t = new Thread(new ThreadStart(clientThread.doClient));
                     t.Start();
@@ -265,6 +265,8 @@ namespace Server
             ClientSocket.Shutdown(SocketShutdown.Both);
             //Chiude il socket
             ClientSocket.Close();
+            //Rimozione dalla lista dei client attivi
+            Clients.Remove(Clients.Find(x => x.Socket == ClientSocket));
             //Svuota data
             data = "";
         }
