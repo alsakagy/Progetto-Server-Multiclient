@@ -81,7 +81,7 @@ namespace Server
                     Socket handler = listener.Accept();
 
                     //Oggetto che gestisce il client collegato
-                    ClientManager clientThread = new ClientManager(handler, ref AccountsRegistrati, ref ID, ref Clients);
+                    ClientManager clientThread = new ClientManager(ref handler, ref AccountsRegistrati, ref ID, ref Clients);
                     //Thread dell'oggetto appena creato (fa il DoClient)
                     Thread t = new Thread(new ThreadStart(clientThread.doClient));
                     t.Start();
@@ -140,7 +140,7 @@ namespace Server
         string data = "";
 
         //Costruttore che riceve il socket
-        public ClientManager(Socket ClientSocket, ref List<Account> Accounts, ref int Id, ref List<Cliente> Clients)
+        public ClientManager(ref Socket ClientSocket, ref List<Account> Accounts, ref int Id, ref List<Cliente> Clients)
         {
             this.Clients = Clients;
             this.Id = Id;
@@ -210,15 +210,15 @@ namespace Server
                             data = "NOK $";
                         }
                         break;
-                    case "ACC":
+                    case "ACC": //Controllo per messaggi in attesa
                         try
                         {
                             Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
-                            int Index = AccountsRegistrati.FindIndex(x => x.NomeUtente == NewAccount.NomeUtente && x.Password == NewAccount.Password);
+                            int Indexx = AccountsRegistrati.FindIndex(x => x.NomeUtente == NewAccount.NomeUtente && x.Password == NewAccount.Password);
 
-                            if(Index != -1)
+                            if(Indexx != -1)
                             {
-                                NewAccount = AccountsRegistrati[Index];
+                                NewAccount = AccountsRegistrati[Indexx];
                                 Clients.Add(new Cliente(ClientSocket, NewAccount));
                                 try
                                 {
@@ -251,6 +251,21 @@ namespace Server
                         {
                             Console.WriteLine("Errore: " + Ex.Message);
                             data = "NOK $";
+                        }
+                        break;
+                    case "MSG":
+                        int Index = Clients.FindIndex(x => x.Account.Id == Convert.ToInt32(Dati[3]));
+                        if(Index != -1)
+                        {
+                            byte[] msg_T = Encoding.ASCII.GetBytes(data);
+                            Clients[Index].Socket.Send(msg_T);
+                            data = "OK $";
+                        }
+                        else
+                        {
+                            //Mettere in una lista di messaggia in sospeso
+                            //inviarli appena accedono i destinatari (controllo sull'accesso)
+                            data = "OK $";
                         }
                         break;
                     default:

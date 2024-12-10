@@ -14,6 +14,7 @@ using System.Security.Principal;
 using System.Text.Json;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Client
 {
@@ -57,9 +58,6 @@ namespace Client
             {
                 Lista_Contatti.Items.Add(contatto.Nome_Utente);
             }
-
-            Lista_Contatti.SelectedIndex = 0;
-            AggiornaMessaggi(Contatti[0]);
         }
 
         private void AggiornaMessaggi(Contatto Contatto)
@@ -74,6 +72,38 @@ namespace Client
         private void Lista_Contatti_SelectedIndexChanged(object sender, EventArgs e)
         {
             AggiornaMessaggi(Contatti[Lista_Contatti.SelectedIndex]);
+        }
+
+        private void Aggiungi_Contatto_Click(object sender, EventArgs e)
+        {
+            Contatti.Add(new Contatto(Convert.ToInt32(ID_Contatto.Text), Nome_Utente_Contatto.Text));
+            AggiornaContatti();
+
+            ID_Contatto.Text = string.Empty;
+            Nome_Utente_Contatto.Text = string.Empty;
+        }
+
+        private void Invia_Messaggio_Click(object sender, EventArgs e)
+        {
+            if(Messaggio.Text != string.Empty)
+            {
+                string Messaggio_Modificato = Messaggio.Text.Replace(' ', '\u001F');
+                try
+                {
+                    Messaggio_Invio = Encoding.ASCII.GetBytes("MSG " + Contatti[Lista_Contatti.SelectedIndex].ID + " " + Contatti[Lista_Contatti.SelectedIndex].Nome_Utente + " " + Socket_Account.Account.Id + " " + Messaggio_Modificato + " $");
+                    Socket_Account.Sender.Send(Messaggio_Invio);
+                }
+                catch (ArgumentNullException Ex)
+                {
+                    MessageBox.Show("Errore: " + Ex.Message);
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Errore: " + Ex.Message);
+                }
+
+                Messaggio.Text = string.Empty;
+            }
         }
     }
 
@@ -113,12 +143,12 @@ namespace Client
                         int Index = Contatti.FindIndex(x => x.ID == Convert.ToInt32(Dati[1]) && x.Nome_Utente == Dati[2]);
                         if (Index != -1)
                         {
-                            Contatti[Index].Messaggi.Add(Dati[2] + ":   " + Dati[3]);
+                            Contatti[Index].Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
                         }
                         else
                         {
                             Contatti.Add(new Contatto(Convert.ToInt32(Dati[1]), Dati[2]));
-                            Contatti.Last().Messaggi.Add(Dati[2] + ":   " + Dati[3]);
+                            Contatti.Last().Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
                         }
 
                         Form1.Invoke((Action)Form1.AggiornaContatti);

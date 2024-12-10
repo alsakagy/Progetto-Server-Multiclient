@@ -38,7 +38,7 @@
             this.Messaggio = new System.Windows.Forms.TextBox();
             this.Invia_Messaggio = new System.Windows.Forms.Button();
             this.Indicazioni_Aggiunta_Contatto2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Nome_Utente_Contatto = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // Lista_Messaggi
@@ -84,6 +84,7 @@
             this.Aggiungi_Contatto.TabIndex = 2;
             this.Aggiungi_Contatto.Text = "Aggiungi Contatto";
             this.Aggiungi_Contatto.UseVisualStyleBackColor = false;
+            this.Aggiungi_Contatto.Click += new System.EventHandler(this.Aggiungi_Contatto_Click);
             // 
             // ID_Contatto
             // 
@@ -107,7 +108,6 @@
             this.Indicazioni_Aggiunta_Contatto1.Size = new System.Drawing.Size(127, 16);
             this.Indicazioni_Aggiunta_Contatto1.TabIndex = 12;
             this.Indicazioni_Aggiunta_Contatto1.Text = "Inserisci ID Contatto:";
-            this.Indicazioni_Aggiunta_Contatto1.Visible = false;
             // 
             // Indicazione_Invio_Messaggio
             // 
@@ -120,7 +120,6 @@
             this.Indicazione_Invio_Messaggio.Size = new System.Drawing.Size(238, 20);
             this.Indicazione_Invio_Messaggio.TabIndex = 15;
             this.Indicazione_Invio_Messaggio.Text = "Inserisci il Messaggio Da Inviare:";
-            this.Indicazione_Invio_Messaggio.Visible = false;
             // 
             // Messaggio
             // 
@@ -149,6 +148,7 @@
             this.Invia_Messaggio.TabIndex = 13;
             this.Invia_Messaggio.Text = "Invia Messaggio";
             this.Invia_Messaggio.UseVisualStyleBackColor = false;
+            this.Invia_Messaggio.Click += new System.EventHandler(this.Invia_Messaggio_Click);
             // 
             // Indicazioni_Aggiunta_Contatto2
             // 
@@ -161,18 +161,17 @@
             this.Indicazioni_Aggiunta_Contatto2.Size = new System.Drawing.Size(151, 16);
             this.Indicazioni_Aggiunta_Contatto2.TabIndex = 17;
             this.Indicazioni_Aggiunta_Contatto2.Text = "Inserisci Nome Contatto:";
-            this.Indicazioni_Aggiunta_Contatto2.Visible = false;
             // 
-            // textBox1
+            // Nome_Utente_Contatto
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
-            this.textBox1.Location = new System.Drawing.Point(163, 513);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(148, 26);
-            this.textBox1.TabIndex = 16;
+            this.Nome_Utente_Contatto.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(93)))), ((int)(((byte)(75)))));
+            this.Nome_Utente_Contatto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Nome_Utente_Contatto.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Nome_Utente_Contatto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
+            this.Nome_Utente_Contatto.Location = new System.Drawing.Point(163, 513);
+            this.Nome_Utente_Contatto.Name = "Nome_Utente_Contatto";
+            this.Nome_Utente_Contatto.Size = new System.Drawing.Size(148, 26);
+            this.Nome_Utente_Contatto.TabIndex = 16;
             // 
             // Form1
             // 
@@ -181,7 +180,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(70)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1212, 623);
             this.Controls.Add(this.Indicazioni_Aggiunta_Contatto2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Nome_Utente_Contatto);
             this.Controls.Add(this.Indicazione_Invio_Messaggio);
             this.Controls.Add(this.Messaggio);
             this.Controls.Add(this.Invia_Messaggio);
@@ -210,7 +209,7 @@
         private System.Windows.Forms.TextBox Messaggio;
         private System.Windows.Forms.Button Invia_Messaggio;
         private System.Windows.Forms.Label Indicazioni_Aggiunta_Contatto2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox Nome_Utente_Contatto;
     }
 }
 
