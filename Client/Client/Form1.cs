@@ -90,7 +90,7 @@ namespace Client
                 string Messaggio_Modificato = Messaggio.Text.Replace(' ', '\u001F');
                 try
                 {
-                    Messaggio_Invio = Encoding.ASCII.GetBytes("MSG " + Contatti[Lista_Contatti.SelectedIndex].ID + " " + Contatti[Lista_Contatti.SelectedIndex].Nome_Utente + " " + Socket_Account.Account.Id + " " + Messaggio_Modificato + " $");
+                    Messaggio_Invio = Encoding.ASCII.GetBytes("MSG " + Socket_Account.Account.Id + " " + Contatti[Lista_Contatti.SelectedIndex].Nome_Utente + " " + Contatti[Lista_Contatti.SelectedIndex].ID + " " + Messaggio_Modificato + " $");
                     Socket_Account.Sender.Send(Messaggio_Invio);
                 }
                 catch (ArgumentNullException Ex)
