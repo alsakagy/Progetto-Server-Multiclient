@@ -22,6 +22,7 @@ namespace Client
     {
         private static List<Contatto> Contatti = new List<Contatto>();
         private byte[] Messaggio_Invio;
+        private byte[] Messaggio_Ricevuto = new byte[1024];
         private string Data = "";
         private static Socket_Account Socket_Account = new Socket_Account();
 
@@ -34,15 +35,32 @@ namespace Client
 
         public void Start()
         {
-            try
+            Thread listeningThread = new Thread(() =>
             {
-                MessageManager MessageManager = new MessageManager(Socket_Account.Sender, ref Contatti, this);
-                Thread t = new Thread(new ThreadStart(MessageManager.Receive));
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show("Errore: " + Ex.Message);
-            }
+                while (true)
+                {
+                    try
+                    {
+                        // Ricevi il messaggio dal server
+                        int bytesRec = Socket_Account.Sender.Receive(Messaggio_Ricevuto);
+                        string data = Encoding.ASCII.GetString(Messaggio_Ricevuto, 0, bytesRec);
+
+                        // Mostra il messaggio o aggiornalo nell'interfaccia
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            Receive(data); // Puoi anche aggiornare un'etichetta o altro controllo
+                        });
+                    }
+                    catch (SocketException ex)
+                    {
+                        MessageBox.Show($"Errore di connessione: {ex.Message}");
+                        break;
+                    }
+                }
+            });
+
+            listeningThread.IsBackground = true; // Assicura che il thread si chiuda quando il form si chiude
+            listeningThread.Start();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -105,8 +123,33 @@ namespace Client
                 Messaggio.Text = string.Empty;
             }
         }
+
+        public void Receive(string a)
+        {
+                string[] Dati = a.Split(' ');
+
+                switch (Dati[0])
+                {
+                    case "MSG":
+                        int Index = Contatti.FindIndex(x => x.ID == Convert.ToInt32(Dati[1]) && x.Nome_Utente == Dati[2]);
+                        if (Index != -1)
+                        {
+                            Contatti[Index].Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
+                        }
+                        else
+                        {
+                            Contatti.Add(new Contatto(Convert.ToInt32(Dati[1]), Dati[2]));
+                            Contatti.Last().Messaggi.Add(Dati[2] + ":   " + Dati[4].Replace('\u001F', ' '));
+                        }
+                    AggiornaContatti();
+                        break;
+                    default:
+                        break;
+                }
+        }
     }
 
+    /*
     class MessageManager
     {
         private Form1 Form1;
@@ -159,7 +202,7 @@ namespace Client
             }
         }
     }
-
+    */
     class Contatto
     {
         private int id;
