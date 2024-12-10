@@ -257,9 +257,12 @@ namespace Server
                         int Index = Clients.FindIndex(x => x.Account.Id == Convert.ToInt32(Dati[3]));
                         if(Index != -1)
                         {
-                            byte[] msg_T = Encoding.ASCII.GetBytes(data);
-                            Clients[Index].Socket.Send(msg_T);
-                            data = "OK $";
+                            if (Clients[Index].Socket.Connected)
+                            {
+                                byte[] msg_T = Encoding.ASCII.GetBytes(data);
+                                Clients[Index].Socket.Send(msg_T);
+                                data = "OK $";
+                            }
                         }
                         else
                         {
