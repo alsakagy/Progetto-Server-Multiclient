@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.ComponentModel;
 using System.Security.Principal;
+using System.Globalization;
 
 namespace Server
 {
@@ -23,26 +24,12 @@ namespace Server
         //Lista di socket
         private static List<Socket> Clients = new List<Socket>();
         //Variabile booleanea per while infinito
-        private static bool Running = true;
         public static int Main(String[] args)
         {
-            AppDomain.CurrentDomain.ProcessExit += Gestione_Uscita;
             CaricamentoAccount();
             CaricamentoUltimoID();
             StartListening();
             return 0;
-        }
-
-        public static void Gestione_Uscita(object sender, EventArgs e)
-        {
-            Running = false;
-            string path = "./../../Resources/ElencoAccount.json";
-            List<string> Righe = new List<string>();
-            foreach (Account account in Accounts)
-            {
-                Righe.Add(JsonSerializer.Serialize(account));
-            }
-            File.WriteAllLines(path, Righe);
         }
 
         public static void CaricamentoAccount()
@@ -93,7 +80,7 @@ namespace Server
                 tb.Start();
 
                 //ciclo infinito
-                while (Running)
+                while (true)
                 {
 
                     Console.WriteLine("Waiting for a connection...");
@@ -222,11 +209,60 @@ namespace Server
                             try
                             {
                                 string JsonString = JsonSerializer.Serialize(NewAccount);
+                                string Path = "./../../Resources/ElencoAccount.json";
+                                File.AppendAllText(Path, JsonString + "\n");
                                 data = "OK " + JsonString + " $";
                             }
                             catch(JsonException Ex)
                             {
                                 Console.WriteLine("Errore: " + Ex.Message);
+                                data = "NOK $";
+                            }
+                            catch(Exception Ex)
+                            {
+                                Console.WriteLine("Errore: " + Ex.Message);
+                                data = "NOK $";
+                            }
+                        }
+                        catch (JsonException Ex)
+                        {
+                            Console.WriteLine("Errore: " + Ex.Message);
+                            data = "NOK $";
+                        }
+                        catch (Exception Ex)
+                        {
+                            Console.WriteLine("Errore: " + Ex.Message);
+                            data = "NOK $";
+                        }
+                        break;
+                    case "ACC":
+                        try
+                        {
+                            Account NewAccount = JsonSerializer.Deserialize<Account>(Dati[1]);
+                            int Index = Accounts.FindIndex(x => x.NomeUtente == NewAccount.NomeUtente && x.Password == NewAccount.Password);
+
+                            if(Index != -1)
+                            {
+                                NewAccount = Accounts[Index];
+                                try
+                                {
+                                    string JsonString = JsonSerializer.Serialize(NewAccount);
+                                    data = "OK " + JsonString + " $";
+                                }
+                                catch (JsonException Ex)
+                                {
+                                    Console.WriteLine("Errore: " + Ex.Message);
+                                    data = "NOK $";
+                                }
+                                catch (Exception Ex)
+                                {
+                                    Console.WriteLine("Errore: " + Ex.Message);
+                                    data = "NOK $";
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Credenziali sbagliate o inestistenti");
                                 data = "NOK $";
                             }
                         }

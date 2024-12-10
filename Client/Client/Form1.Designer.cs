@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Messaggio = new System.Windows.Forms.TextBox();
             this.Invia_Messaggio = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -54,9 +55,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(70)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1212, 623);
             this.Controls.Add(this.Invia_Messaggio);
             this.Controls.Add(this.Messaggio);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Scambio Messaggi";
             this.Load += new System.EventHandler(this.Form1_Load);

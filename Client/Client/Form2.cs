@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -102,11 +103,27 @@ namespace Client
             {
                 case "OK":
                     Socket_Account.Account = JsonSerializer.Deserialize<Account>(Dati[1]);
+                    Svuota_TextBox();
+                    Cambio_Form();
                     break;
                 case "NOK":
                     MessageBox.Show("La registrazione del nuovo account non è andata a buon fine.");
+                    Svuota_TextBox();
                     break;
             }
+        }
+
+        private void Cambio_Form()
+        {
+            Form1 Form1 = new Form1(Socket_Account);
+            this.Hide();
+            Form1.ShowDialog();
+        }
+
+        private void Svuota_TextBox()
+        {
+            Nome_Utente.Text = string.Empty;
+            Password.Text = string.Empty;
         }
 
         private string Ascolto_Server()
@@ -124,12 +141,60 @@ namespace Client
 
         private void Accesso_Click(object sender, EventArgs e)
         {
+            try
+            {
+                Account NewAccount = new Account(Nome_Utente.Text, Password.Text);
+                AccessoAccount(NewAccount);
+            }
+            catch (ArgumentNullException Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
 
+            string[] Dati = Ascolto_Server().Split(' ');
+
+            switch (Dati[0])
+            {
+                case "OK":
+                    Socket_Account.Account = JsonSerializer.Deserialize<Account>(Dati[1]);
+                    Svuota_TextBox();
+                    Cambio_Form();
+                    break;
+                case "NOK":
+                    MessageBox.Show("Le credenziali sono sbagliate o inesistenti, riprova.");
+                    Svuota_TextBox();
+                    break;
+            }
         }
 
-        private void AccessoAccount()
+        private void AccessoAccount(Account NewAccount)
         {
+            try
+            {
+                string JsonString = JsonSerializer.Serialize(NewAccount);
 
+                try
+                {
+                    Messaggio_Invio = Encoding.ASCII.GetBytes("ACC " + JsonString + " $");
+                    Socket_Account.Sender.Send(Messaggio_Invio);
+                }
+                catch (ArgumentNullException Ex)
+                {
+                    MessageBox.Show("Errore: " + Ex.Message);
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Errore: " + Ex.Message);
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Errore: " + Ex.Message);
+            }
         }
 
         private void RegistrazioneAccount(Account NewAccount)
@@ -181,16 +246,9 @@ namespace Client
                 MessageBox.Show("Errore: " + Ex.Message);
             }
         }
-
-        private void Temp_Click(object sender, EventArgs e)
-        {
-            Messaggio_Invio = Encoding.ASCII.GetBytes("QUIT $");
-            Socket_Account.Sender.Send(Messaggio_Invio);
-            Application.Exit();
-        }
     }
 
-    class Socket_Account
+    public class Socket_Account
     {
         private Socket sender;
         private Account account;
@@ -207,19 +265,13 @@ namespace Client
             set { account = value; }
         }
 
-        public Socket_Account(Socket socket, Account account)
-        {
-            this.sender = socket;
-            this.account = account;
-        }
-
         public Socket_Account()
         {
 
         }
     }
 
-    class Account
+    public class Account
     {
         private string nomeutente;
         private string password;
