@@ -25,6 +25,7 @@ namespace Client
         private byte[] Messaggio_Ricevuto = new byte[1024];
         private string Data = "";
         private static Socket_Account Socket_Account = new Socket_Account();
+        private static Thread listeningThread;
 
         public Form1(Socket_Account Socket)
         {
@@ -35,7 +36,8 @@ namespace Client
 
         public void Start()
         {
-            Thread listeningThread = new Thread(() =>
+            Dati_Utente.Text = $"{Socket_Account.Account.NomeUtente}    ({Socket_Account.Account.Id})";
+            listeningThread = new Thread(() =>
             {
                 while (true)
                 {
@@ -65,6 +67,7 @@ namespace Client
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            listeningThread.Abort();
             Messaggio_Invio = Encoding.ASCII.GetBytes("QUIT $");
             Socket_Account.Sender.Send(Messaggio_Invio);
         }

@@ -17,7 +17,7 @@ namespace Server
 {
     internal class Program
     {
-        //Ultimo ID
+        //ID
         private static int ID;
         //Lista di account registrati
         private static List<Account> AccountsRegistrati = new List<Account>();

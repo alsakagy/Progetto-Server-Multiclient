@@ -39,6 +39,7 @@
             this.Invia_Messaggio = new System.Windows.Forms.Button();
             this.Indicazioni_Aggiunta_Contatto2 = new System.Windows.Forms.Label();
             this.Nome_Utente_Contatto = new System.Windows.Forms.TextBox();
+            this.Dati_Utente = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Lista_Messaggi
@@ -62,9 +63,9 @@
             this.Lista_Contatti.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
             this.Lista_Contatti.FormattingEnabled = true;
             this.Lista_Contatti.ItemHeight = 24;
-            this.Lista_Contatti.Location = new System.Drawing.Point(12, 22);
+            this.Lista_Contatti.Location = new System.Drawing.Point(12, 46);
             this.Lista_Contatti.Name = "Lista_Contatti";
-            this.Lista_Contatti.Size = new System.Drawing.Size(300, 458);
+            this.Lista_Contatti.Size = new System.Drawing.Size(300, 434);
             this.Lista_Contatti.TabIndex = 1;
             this.Lista_Contatti.SelectedIndexChanged += new System.EventHandler(this.Lista_Contatti_SelectedIndexChanged);
             // 
@@ -173,12 +174,24 @@
             this.Nome_Utente_Contatto.Size = new System.Drawing.Size(148, 26);
             this.Nome_Utente_Contatto.TabIndex = 16;
             // 
+            // Dati_Utente
+            // 
+            this.Dati_Utente.AutoSize = true;
+            this.Dati_Utente.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Dati_Utente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(229)))), ((int)(((byte)(221)))));
+            this.Dati_Utente.Location = new System.Drawing.Point(11, 22);
+            this.Dati_Utente.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.Dati_Utente.Name = "Dati_Utente";
+            this.Dati_Utente.Size = new System.Drawing.Size(0, 20);
+            this.Dati_Utente.TabIndex = 18;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(5)))), ((int)(((byte)(70)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1212, 623);
+            this.Controls.Add(this.Dati_Utente);
             this.Controls.Add(this.Indicazioni_Aggiunta_Contatto2);
             this.Controls.Add(this.Nome_Utente_Contatto);
             this.Controls.Add(this.Indicazione_Invio_Messaggio);
@@ -210,6 +223,7 @@
         private System.Windows.Forms.Button Invia_Messaggio;
         private System.Windows.Forms.Label Indicazioni_Aggiunta_Contatto2;
         private System.Windows.Forms.TextBox Nome_Utente_Contatto;
+        private System.Windows.Forms.Label Dati_Utente;
     }
 }
 
