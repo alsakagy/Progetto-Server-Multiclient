@@ -92,7 +92,10 @@ namespace Client
 
         private void Lista_Contatti_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AggiornaMessaggi(Contatti[Lista_Contatti.SelectedIndex]);
+            if(Lista_Contatti.SelectedIndex != -1)
+            {
+                AggiornaMessaggi(Contatti[Lista_Contatti.SelectedIndex]);
+            }
         }
 
         private void Aggiungi_Contatto_Click(object sender, EventArgs e)

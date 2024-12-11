@@ -128,6 +128,8 @@ namespace Server
     {
         //Id da assegnare
         int Id;
+        //Lista messaggi in sospeso
+        List<string> MessaggiInSospeso = new List<string>();
         //Lista Account
         List<Account> AccountsRegistrati = new List<Account>();
         //Socket
@@ -142,6 +144,7 @@ namespace Server
         //Costruttore che riceve il socket
         public ClientManager(ref Socket ClientSocket, ref List<Account> Accounts, ref int Id, ref List<Cliente> Clients)
         {
+            this.MessaggiInSospeso = MessaggiInSospeso;
             this.Clients = Clients;
             this.Id = Id;
             this.ClientSocket = ClientSocket;
